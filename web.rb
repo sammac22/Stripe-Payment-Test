@@ -72,7 +72,7 @@ post '/plans' do
 
     begin
 
-      customer = Stripe::Plan.create(
+      plan = Stripe::Plan.create(
       :currency => payload[:currency],
       :interval => payload[:interval],
       :product => {
@@ -89,6 +89,59 @@ post '/plans' do
 
     status 200
     return "Metered plan successfully created"
+
+end
+
+post '/subscriptions' do
+
+  payload = params
+  if request.content_type.include? 'application/json' and params.empty?
+      payload = indifferent_params(JSON.parse(request.body.read))
+    end
+
+    begin
+
+      subscription = Stripe::Subscription.create(
+      :customer => payload[:customer],
+      :items => [
+        {
+          :plan => payload[:plan]
+        }
+      ]
+      )
+
+    rescue Stripe::StripeError => e
+      status 402
+      return "Error creating subscription: #{e.message}"
+    end
+
+    status 200
+    return "Subscription successfully created"
+
+end
+
+post '/usage_records' do
+
+  payload = params
+  if request.content_type.include? 'application/json' and params.empty?
+      payload = indifferent_params(JSON.parse(request.body.read))
+    end
+
+    begin
+
+    Stripe::UsageRecord.create(
+    :quantity => payload[:quantity],
+    :timestamp => payload[:timestamp],
+    :subscription_item => payload[:subscription_item]
+    )
+
+    rescue Stripe::StripeError => e
+      status 402
+      return "Error creating usage record: #{e.message}"
+    end
+
+    status 200
+    return "Usage record successfully created"
 
 end
 

@@ -76,7 +76,6 @@ final class StripeClient {
     }
     
     func createPlan(amount: Double, product: String){
-    // func createPlan(with usage_type: String, completion: @escaping (Result) -> Void){
         
         let url = baseURL.appendingPathComponent("plans")
         
@@ -96,15 +95,39 @@ final class StripeClient {
         
         Alamofire.request(url, method: .post, parameters: params)
             .validate(statusCode: 200..<300)
-//            .responseString { response in
-//                switch response.result {
-//                case .success:
-//                    completion(Result.success)
-//                case .failure(let error):
-//                    completion(Result.failure(error))
-//                }
         
     }
+    
+    func createSubscription(customer: String, plan: String){
+        
+        let url = baseURL.appendingPathComponent("subscriptions")
+        
+        let params: [String: Any] = [
+            "customer": customer,
+            "plan": plan,
+        ]
+        
+        Alamofire.request(url, method: .post, parameters: params)
+            .validate(statusCode: 200..<300)
+    }
+    
+    func createUsageRecord(quanity: Int, subscription_item: String){
+        
+        let url = baseURL.appendingPathComponent("usage_records")
+        
+        let timestamp = String(Int(NSDate().timeIntervalSince1970))
+        
+        let params: [String: Any] = [
+            "quanity": quanity,
+            "timestamp": timestamp,
+            "subscription_item": subscription_item
+            ]
+        
+        Alamofire.request(url, method: .post, parameters: params)
+            .validate(statusCode: 200..<300)
+    }
+    
+    
     
 }
 
