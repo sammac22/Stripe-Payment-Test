@@ -16,14 +16,14 @@ class ViewController: UIViewController {
     @IBOutlet weak var customerButton: UIButton!
     @IBOutlet weak var customerField: UITextField!
     
-    @IBAction func paidTapped(_ sender: Any) {
-        print("tap registered")
-        
-        let addCardViewController = STPAddCardViewController()
-        addCardViewController.delegate = self
-        let navigationController = UINavigationController(rootViewController: addCardViewController)
-        present(navigationController, animated: true)
-    }
+//    @IBAction func paidTapped(_ sender: Any) {
+//        print("tap registered")
+//
+//        let addCardViewController = STPAddCardViewController()
+//        addCardViewController.delegate = self
+//        let navigationController = UINavigationController(rootViewController: addCardViewController)
+//        present(navigationController, animated: true)
+//    }
 
     @IBAction func customerTapped(_ sender: Any) {
         print("tap registered")
@@ -45,18 +45,15 @@ class ViewController: UIViewController {
     }
 }
 
-
-
-
 extension ViewController: STPAddCardViewControllerDelegate {
     
     func addCardViewControllerDidCancel(_ addCardViewController: STPAddCardViewController) {
         navigationController?.popViewController(animated: true)
     }
     
-    func addCardViewController(_ addCardViewController: STPAddCardViewController,
-                               didCreateToken token: STPToken,
-                               completion: @escaping STPErrorBlock) {
+//    func addCardViewController(_ addCardViewController: STPAddCardViewController,
+//                               didCreateToken token: STPToken,
+//                               completion: @escaping STPErrorBlock) {
 //        let total = Int(amountField.text!)
 //        StripeClient.shared.completeCharge(with: token, amount: total!) { result in
 //            switch result {
@@ -77,6 +74,11 @@ extension ViewController: STPAddCardViewControllerDelegate {
 //                completion(error)
 //            }
 //        }
+//
+//    }
+    func addCardViewController(_ addCardViewController: STPAddCardViewController,
+                                              didCreateToken token: STPToken,
+                                              completion: @escaping STPErrorBlock) {
         let description = customerField.text!
         StripeClient.shared.addCustomer(with: token, customer_description: description) { result in
             
