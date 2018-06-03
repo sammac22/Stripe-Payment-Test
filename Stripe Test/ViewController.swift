@@ -13,6 +13,8 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var amountField: UITextField!
     @IBOutlet weak var payButton: UIButton!
+    @IBOutlet weak var customerButton: UIButton!
+    @IBOutlet weak var customerField: UITextField!
     
     @IBAction func paidTapped(_ sender: Any) {
         print("tap registered")
@@ -23,6 +25,14 @@ class ViewController: UIViewController {
         present(navigationController, animated: true)
     }
 
+    @IBAction func customerTapped(_ sender: Any) {
+        print("tap registered")
+        
+        let addCardViewController = STPAddCardViewController()
+        addCardViewController.delegate = self
+        let navigationController = UINavigationController(rootViewController: addCardViewController)
+        present(navigationController, animated: true)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,22 +57,43 @@ extension ViewController: STPAddCardViewControllerDelegate {
     func addCardViewController(_ addCardViewController: STPAddCardViewController,
                                didCreateToken token: STPToken,
                                completion: @escaping STPErrorBlock) {
-        let total = Int(amountField.text!)
-        StripeClient.shared.completeCharge(with: token, amount: total!) { result in
-            switch result {
+//        let total = Int(amountField.text!)
+//        StripeClient.shared.completeCharge(with: token, amount: total!) { result in
+//            switch result {
+//
+//            case .success:
+//                completion(nil)
+//
+//                let alertController = UIAlertController(title: "Congrats",
+//                                                        message: "Your payment was successful!",
+//                                                        preferredStyle: .alert)
+//                let alertAction = UIAlertAction(title: "OK", style: .default, handler: { _ in
+//                    self.navigationController?.popViewController(animated: true)
+//                })
+//                alertController.addAction(alertAction)
+//                self.present(alertController, animated: true)
+//
+//            case .failure(let error):
+//                completion(error)
+//            }
+//        }
+        let description = customerField.text!
+        StripeClient.shared.addCustomer(with: token, customer_description: description) { result in
             
+            switch result {
+                
             case .success:
                 completion(nil)
                 
                 let alertController = UIAlertController(title: "Congrats",
-                                                        message: "Your payment was successful!",
+                                                        message: "Added customer!",
                                                         preferredStyle: .alert)
                 let alertAction = UIAlertAction(title: "OK", style: .default, handler: { _ in
                     self.navigationController?.popViewController(animated: true)
                 })
                 alertController.addAction(alertAction)
                 self.present(alertController, animated: true)
-            
+                
             case .failure(let error):
                 completion(error)
             }

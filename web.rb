@@ -3,23 +3,9 @@ require 'sinatra'
 require 'stripe'
 require 'json'
 
-#2
-Stripe.api_key = 'PRIVATE_KEY'
+#2 Grabs api key from config file
+Stripe.api_key = File.read('./.apikey')
 
-
-Stripe::Subscription.create(
-    :customer => "cus_CyfHilbbZCKqOr",
-    :items => [
-        {
-            :plan => payload[:plan],
-            :billing => payload[:billing],
-            :amount => payload[:amount],
-            :interval => payload[:interval],
-            :currency => payload[:currency,
-            :usage_type => payload[:usage_type],
-        },
-    ]
-)
 #3
 get '/' do
   status 200
@@ -50,6 +36,34 @@ post '/charge' do
   #8
   status 200
   return "Charge successfully created"
-  
 
 end
+
+post '/customers' do
+
+	payload = params
+	if request.content_type.include? 'application/json' and params.empty?
+    	payload = indifferent_params(JSON.parse(request.body.read))
+  	end
+
+  	begin
+
+  		customer = Stripe::Customer.create(
+		  :description => payload[:description],
+		  :source => payload[:token] # obtained with Stripe.js
+		)
+
+		rescue Stripe::StripeError => e
+    	status 402
+    	return "Error creating charge: #{e.message}"
+  	end
+
+  	status 200
+  	return "Customer successfully created"
+
+end
+
+
+
+
+

@@ -8,7 +8,7 @@
 
 import UIKit
 import CoreData
-import Stripe
+ import Stripe
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
