@@ -9,7 +9,7 @@ Stripe.api_key = File.read('./.apikey')
 #3
 get '/' do
   status 200
-  return "BadBoyButton back end has been set up correctly"
+  return "Successful connection to Stripe"
 end
 
 #4
@@ -55,13 +55,43 @@ post '/customers' do
 
 		rescue Stripe::StripeError => e
     	status 402
-    	return "Error creating charge: #{e.message}"
+    	return "Error creating customer: #{e.message}"
   	end
 
   	status 200
   	return "Customer successfully created"
 
 end
+
+post '/plans' do
+
+  payload = params
+  if request.content_type.include? 'application/json' and params.empty?
+      payload = indifferent_params(JSON.parse(request.body.read))
+    end
+
+    begin
+
+      customer = Stripe::Plan.create(
+      :currency => payload[:currency],
+      :interval => payload[:interval],
+      :product => payload[:product],
+      :nickname => payload[:nickname],
+      :amount => payload[:amount],
+      :usage_type => payload[:usage_type],
+    )
+
+    rescue Stripe::StripeError => e
+      status 402
+      return "Error creating metered plan: #{e.message}"
+    end
+
+    status 200
+    return "Metered plan successfully created"
+
+end
+
+
 
 
 
