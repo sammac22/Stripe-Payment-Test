@@ -53,25 +53,38 @@ final class StripeClient {
         }
     }
     
-    func addCustomer(with token: STPToken, customer_description: String, completion: @escaping (Result) -> Void){
+    func addCustomer(with token: STPToken, customer_description: String, email: String, completion: @escaping (Result) -> Void){
         
         let url = baseURL.appendingPathComponent("customers")
         
         let params: [String: Any] = [
             "description": customer_description,
+            "email": email,
             "token": token.tokenId
         ]
         
         Alamofire.request(url, method: .post, parameters: params)
             .validate(statusCode: 200..<300)
-            .responseString { response in
-                switch response.result {
+            .responseString{ response in
+                let result = response.result
+                switch result {
                 case .success:
                     completion(Result.success)
                 case .failure(let error):
                     completion(Result.failure(error))
                 }
-        }
+            }
+//            .responseJSON{ response in
+//               let result = response.result
+//                print("Made it here 1")
+//                if let dict = result.value as? Dictionary<String, AnyObject> {
+//                    print("Made it here 2")
+//                    print(dict)
+//                }
+//                let dict = result.value as? Dictionary<String, AnyObject>
+//                print(dict as Any)
+//        }
+        
         
     }
     

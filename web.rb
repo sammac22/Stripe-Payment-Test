@@ -50,6 +50,7 @@ post '/customers' do
 
   		customer = Stripe::Customer.create(
 		  :description => payload[:description],
+      :email => payload[:email],
 		  :source => payload[:token] # obtained with Stripe.js
 		)
 
@@ -60,6 +61,7 @@ post '/customers' do
 
   	status 200
   	return "Customer successfully created"
+    print(customer)
 
 end
 

@@ -143,7 +143,8 @@ extension ViewController: STPAddCardViewControllerDelegate {
                                               didCreateToken token: STPToken,
                                               completion: @escaping STPErrorBlock) {
         let description = customerField.text!
-        StripeClient.shared.addCustomer(with: token, customer_description: description) { result in
+        let email = customerIDField.text!
+        StripeClient.shared.addCustomer(with: token, customer_description: description, email: email) { result in
             
             switch result {
                 
