@@ -204,7 +204,7 @@
                         <outlet property="recordUseButton" destination="VkS-0y-inK" id="pVY-tY-K5q"/>
                         <outlet property="subscriptionCustomerIDField" destination="Euh-Xk-EPX" id="Nf9-qF-nGn"/>
                         <outlet property="subscriptionIDField" destination="UVT-R7-zkq" id="pXQ-S7-TLt"/>
-                        <outlet property="useQuanityField" destination="mPA-OO-ZUx" id="Fky-E0-kVR"/>
+                        <outlet property="useQuantityField" destination="mPA-OO-ZUx" id="BIl-Bl-gTG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

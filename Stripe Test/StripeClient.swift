@@ -111,14 +111,14 @@ final class StripeClient {
             .validate(statusCode: 200..<300)
     }
     
-    func createUsageRecord(quanity: Int, subscription_item: String){
+    func createUsageRecord(quantity: Int, subscription_item: String){
         
         let url = baseURL.appendingPathComponent("usage_records")
         
         let timestamp = String(Int(NSDate().timeIntervalSince1970))
         
         let params: [String: Any] = [
-            "quanity": quanity,
+            "quantity": quantity,
             "timestamp": timestamp,
             "subscription_item": subscription_item
             ]

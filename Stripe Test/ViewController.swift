@@ -22,7 +22,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var createSubscriptionButton: UIButton!
     @IBOutlet weak var subscriptionCustomerIDField: UITextField!
     @IBOutlet weak var planIDField: UITextField!
-    @IBOutlet weak var useQuanityField: UITextField!
+    @IBOutlet weak var useQuantityField: UITextField!
     @IBOutlet weak var subscriptionIDField: UITextField!
     @IBOutlet weak var recordUseButton: UIButton!
     
@@ -63,11 +63,11 @@ class ViewController: UIViewController {
     @IBAction func recordUseTapped(_ sender: Any) {
         print("Tap registered")
         
-        let quanity = Int(useQuanityField.text!)
+        let quantity = Int(useQuantityField.text!)
         let subscription_id = subscriptionIDField.text!
         
-        print(String(quanity!))
-        createUsageRecord(quanity: quanity!, subscripiton_id: subscription_id)
+        print(String(quantity!))
+        createUsageRecord(quantity: quantity!, subscription_id: subscription_id)
     }
     
     override func viewDidLoad() {
@@ -99,9 +99,9 @@ func createSubscription(customer_id: String, plan_id: String){
     print("Created subscription")
 }
 
-func createUsageRecord(quanity: Int, subscripiton_id: String){
+func createUsageRecord(quantity: Int, subscription_id: String){
     
-    StripeClient.shared.createUsageRecord(quanity: quanity, subscription_item: subscripiton_id)
+    StripeClient.shared.createUsageRecord(quantity: quantity, subscription_item: subscription_id)
     
     // Not really sure how to do error handling here
     

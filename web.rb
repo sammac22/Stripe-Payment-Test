@@ -129,9 +129,9 @@ post '/usage_records' do
 
     begin
 
-    Stripe::UsageRecord.create(
-    :quantity => payload[:quantity],
+    usage_record = Stripe::UsageRecord.create(
     :timestamp => payload[:timestamp],
+    :quantity => payload[:quantity],
     :subscription_item => payload[:subscription_item]
     )
 
