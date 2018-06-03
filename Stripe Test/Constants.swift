@@ -13,4 +13,5 @@ enum Constants {
     static let baseURLString = "http://localhost:4567"
     static let defaultCurrency = "usd"
     static let defaultDescription = "Purchase from BadBoyButton"
+    static let defaultInterval = "month"
 }

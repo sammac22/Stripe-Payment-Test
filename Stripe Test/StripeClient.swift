@@ -75,5 +75,36 @@ final class StripeClient {
         
     }
     
+    func createPlan(amount: Double, product: String){
+    // func createPlan(with usage_type: String, completion: @escaping (Result) -> Void){
+        
+        let url = baseURL.appendingPathComponent("plans")
+        
+        let currency = Constants.defaultCurrency
+        let interval = Constants.defaultInterval
+        let usage_type = "metered"
+        
+        let int_amount = Int(amount * 100)
+        
+        let params: [String: Any] = [
+            "currency": currency,
+            "interval": interval,
+            "product": product,
+            "amount": int_amount,
+            "usage_type": usage_type
+        ]
+        
+        Alamofire.request(url, method: .post, parameters: params)
+            .validate(statusCode: 200..<300)
+//            .responseString { response in
+//                switch response.result {
+//                case .success:
+//                    completion(Result.success)
+//                case .failure(let error):
+//                    completion(Result.failure(error))
+//                }
+        
+    }
+    
 }
 

@@ -75,8 +75,9 @@ post '/plans' do
       customer = Stripe::Plan.create(
       :currency => payload[:currency],
       :interval => payload[:interval],
-      :product => payload[:product],
-      :nickname => payload[:nickname],
+      :product => {
+      :name => payload[:product]
+      },
       :amount => payload[:amount],
       :usage_type => payload[:usage_type],
     )

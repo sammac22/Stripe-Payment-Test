@@ -15,6 +15,9 @@ class ViewController: UIViewController {
     @IBOutlet weak var payButton: UIButton!
     @IBOutlet weak var customerButton: UIButton!
     @IBOutlet weak var customerField: UITextField!
+    @IBOutlet weak var planButton: UIButton!
+    @IBOutlet weak var planNameField: UITextField!
+    @IBOutlet weak var planPricingField: UITextField!
     
 //    @IBAction func paidTapped(_ sender: Any) {
 //        print("tap registered")
@@ -33,6 +36,14 @@ class ViewController: UIViewController {
         let navigationController = UINavigationController(rootViewController: addCardViewController)
         present(navigationController, animated: true)
     }
+
+    @IBAction func planTapped(_ sender: Any) {
+        print("Tap registered")
+        
+        let price_per_unit = Double(planPricingField.text!)!
+        let plan_name = planNameField.text!
+        createPlan(price_per_unit:price_per_unit, plan_name:plan_name)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,6 +54,33 @@ class ViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+}
+
+func createPlan(price_per_unit: Double, plan_name: String){
+
+    StripeClient.shared.createPlan(amount:price_per_unit, product:plan_name)
+    //{ result in
+//        switch result {
+//
+//        case .success:
+//            completion(nil)
+//
+//            let alertController = UIAlertController(title: "Congrats",
+//                                                    message: "Created plan!",
+//                                                    preferredStyle: .alert)
+//            let alertAction = UIAlertAction(title: "OK", style: .default, handler: { _ in
+//                self.navigationController?.popViewController(animated: true)
+//            })
+//            alertController.addAction(alertAction)
+//            self.present(alertController, animated: true)
+//
+//        case .failure(let error):
+//            completion(error)
+//        }
+//    }
+
+        // Not really sure how to do error handling here
+    print("Created plan")
 }
 
 extension ViewController: STPAddCardViewControllerDelegate {
